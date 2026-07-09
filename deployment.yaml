@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: custom-scala-api
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: custom-scala-api
+  template:
+    metadata:
+      labels:
+        app: custom-scala-api
+    spec:
+      imagePullSecrets:
+        - name: ghcr-secret
+      containers:
+        - name: custom-scala-api
+          # 💡 CI/CD 파이프라인(sed 명령어)이 원활하게 추적할 수 있도록 초기 주소를 세팅했습니다.
+          image: ghcr.io/kkw855/custom-scala-api:latest
+          # 💡 Http4s 내장 에어버 서버 포트인 5002로 변경되었습니다.
+          ports:
+            - containerPort: 5002
+          resources:
+            # 💡 JVM 가비지 컬렉터(GC)와 런타임 안정성을 위해 메모리 한계치를 512Mi로 상향했습니다.
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: custom-scala-api-service
+  namespace: default
+spec:
+  selector:
+    app: custom-scala-api
+  type: ClusterIP
+  ports:
+    - port: 5002       # 클러스터 내부에서 이 서비스에 접근할 포트
+      targetPort: 5002 # 파드(컨테이너) 내부로 연결할 포트

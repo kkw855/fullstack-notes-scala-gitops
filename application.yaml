@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: custom-scala-api
+  namespace: argocd
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default # 배포될 쿠버네티스 네임스페이스
+
+  project: default
+
+  source:
+    # 💡 스칼라 전용 GitOps 레포지토리 주소
+    repoURL: https://github.com/kkw855/fullstack-notes-scala-gitops.git
+    targetRevision: HEAD
+    path: .
+
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+    syncOptions:
+      - CreateNamespace=true
