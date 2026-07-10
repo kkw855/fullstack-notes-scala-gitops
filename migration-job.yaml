@@ -1,0 +1,45 @@
+# k8s/migration-job.yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: postgres-migration-job
+  namespace: default
+  annotations:
+    # 🔗 ArgoCD 핵심 훅: 앱 배포(Sync)가 시작되기 전에 이 Job을 먼저 실행합니다.
+    "argocd.argoproj.io/hook": PreSync
+    # 🔄 다음 배포 때 이름 충돌이 나지 않도록, 새로운 훅이 실행되기 직전에 기존 Job을 자동으로 삭제합니다.
+    "argocd.argoproj.io/hook-delete-policy": BeforeHookCreation
+spec:
+  template:
+    spec:
+      imagePullSecrets:
+        - name: ghcr-secret
+      containers:
+        - name: atlas-migration
+          # 2단계에서 빌드하여 푸시한 이미지를 지정합니다.
+          image: ghcr.io/kkw855/atlas-migrations:v1.0.0
+          # Atlas CLI 명령어를 통해 DB에 마이그레이션을 적용(apply)합니다.
+          command: ["atlas"]
+          args:
+            - "migrate"
+            - "apply"
+            - "--url"
+            - "postgres://$(DB_USER):$(DB_PASSWORD)@crud-postgres-rw.postgres.svc.cluster.local:5432/notes_db?sslmode=disable"
+            - "--dir"
+            - "file:///migrations"
+          env:
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: crud-postgres-app  # 👈 확인하신 시크릿 이름
+                  key: username
+            # 🔐 패스워드 같은 민감 정보는 반드시 K8s Secret에서 안전하게 가져옵니다.
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: crud-postgres-app
+                  key: password
+      # 실패 시 Job이 무한루프를 돌지 않고 Pod만 재시작하도록 설정합니다.
+      restartPolicy: OnFailure
+  # 마이그레이션이 롤백이나 락 문제로 실패했을 때, 최대 3번까지만 재시도하고 Job을 실패 처리합니다.
+  backoffLimit: 3
