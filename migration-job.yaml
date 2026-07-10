@@ -31,7 +31,7 @@ spec:
             - name: DB_USER
               valueFrom:
                 secretKeyRef:
-                  name: crud-postgres-app  # 👈 확인하신 시크릿 이름
+                  name: crud-postgres-app  # 👈 확인하신 시크릿 이름(배포하는 네임스페이스에 해당 시크릿이 존재해야 함
                   key: username
             # 🔐 패스워드 같은 민감 정보는 반드시 K8s Secret에서 안전하게 가져옵니다.
             - name: DB_PASSWORD
