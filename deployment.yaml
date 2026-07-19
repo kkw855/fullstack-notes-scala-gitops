@@ -18,7 +18,7 @@ spec:
       containers:
         - name: custom-scala-api
           # 💡 CI/CD 파이프라인(sed 명령어)이 원활하게 추적할 수 있도록 초기 주소를 세팅했습니다.
-          image: ghcr.io/kkw855/custom-scala-api:e9edd28d753c41165df9bdf748f135a66e407da1
+          image: ghcr.io/kkw855/custom-scala-api:7a48779d1ba2cf5984c15432f427f29973e66f48
           # 💡 Http4s 내장 에어버 서버 포트인 5002로 변경되었습니다.
           ports:
             - containerPort: 5002
