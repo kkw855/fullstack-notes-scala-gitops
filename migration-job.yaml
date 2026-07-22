@@ -17,7 +17,7 @@ spec:
       containers:
         - name: atlas-migration
           # 2단계에서 빌드하여 푸시한 이미지를 지정합니다.
-          image: ghcr.io/kkw855/atlas-migrations:584337414a5c881e23dd2cc741684b5127df01cb
+          image: ghcr.io/kkw855/atlas-migrations:00bd8b2d5fddae3d9f5213364188e406fe5fa4f5
           # Atlas CLI 명령어를 통해 DB에 마이그레이션을 적용(apply)합니다.
           command: ["atlas"]
           args:
