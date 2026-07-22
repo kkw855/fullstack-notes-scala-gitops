@@ -19,6 +19,22 @@ spec:
         - name: custom-scala-api
           # 💡 CI/CD 파이프라인(sed 명령어)이 원활하게 추적할 수 있도록 초기 주소를 세팅했습니다.
           image: ghcr.io/kkw855/custom-scala-api:584337414a5c881e23dd2cc741684b5127df01cb
+          env:
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: notes-app-secrets   # SealedSecret이 복원해낸 K8s Secret 이름
+                  key: DB_USER
+            - name: DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: notes-app-secrets
+                  key: DB_PASS
+            - name: REDIS_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: notes-app-secrets
+                  key: REDIS_PASS
           # 💡 Http4s 내장 에어버 서버 포트인 5002로 변경되었습니다.
           ports:
             - containerPort: 5002
