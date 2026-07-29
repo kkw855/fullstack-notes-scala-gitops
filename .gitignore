@@ -1,7 +1,11 @@
-# Created by https://www.toptal.com/developers/gitignore/api/macos,windows,git,intellij+all,react,node,scala,sbt
-# Edit at https://www.toptal.com/developers/gitignore?templates=macos,windows,git,intellij+all,react,node,scala,sbt
+# Created by https://www.toptal.com/developers/gitignore/api/git,sbt,node,macos,react,scala,gradle,kotlin,windows,intellij+all,maven
+# Edit at https://www.toptal.com/developers/gitignore?templates=git,sbt,node,macos,react,scala,gradle,kotlin,windows,intellij+all,maven
 
 .idea
+
+*secret.raw.yaml
+*secret.unsealed.yaml
+secret-plain.yaml
 
 ### Git ###
 # Created by git for backups. To disable backups in Git:
@@ -106,6 +110,32 @@ fabric.properties
 !.idea/codeStyles
 !.idea/runConfigurations
 
+### Kotlin ###
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+replay_pid*
+
 ### macOS ###
 # General
 .DS_Store
@@ -139,10 +169,28 @@ Temporary Items
 # iCloud generated files
 *.icloud
 
+### Maven ###
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+# https://github.com/takari/maven-wrapper#usage-without-binary-jar
+.mvn/wrapper/maven-wrapper.jar
+
+# Eclipse m2e generated files
+# Eclipse Core
+.project
+# JDT-specific (Eclipse Java Development Tools)
+.classpath
+
 ### Node ###
 # Logs
 logs
-*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
@@ -297,7 +345,6 @@ sketch
 # http://www.scala-sbt.org/release/docs/Getting-Started/Directories.html#configuring-version-control
 
 dist/*
-target/
 lib_managed/
 src_managed/
 project/boot/
@@ -309,10 +356,8 @@ project/plugins/project/
 .bsp/
 
 ### Scala ###
-*.class
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
 
 ### Windows ###
 # Windows thumbnail cache files
@@ -340,4 +385,29 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# End of https://www.toptal.com/developers/gitignore/api/macos,windows,git,intellij+all,react,node,scala,sbt
+### Gradle ###
+.gradle
+**/build/
+!catalog-service/src/**/build/
+
+# Ignore Gradle GUI config
+gradle-app.setting
+
+# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
+!gradle-wrapper.jar
+
+# Avoid ignore Gradle wrappper properties
+!gradle-wrapper.properties
+
+# Cache of project
+.gradletasknamecache
+
+# Eclipse Gradle plugin generated files
+# Eclipse Core
+# JDT-specific (Eclipse Java Development Tools)
+
+### Gradle Patch ###
+# Java heap dump
+*.hprof
+
+# End of https://www.toptal.com/developers/gitignore/api/git,sbt,node,macos,react,scala,gradle,kotlin,windows,intellij+all,maven
