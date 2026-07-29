@@ -17,7 +17,7 @@ spec:
       containers:
         - name: scala-api
           # 💡 CI/CD 파이프라인(sed 명령어)이 원활하게 추적할 수 있도록 초기 주소를 세팅했습니다.
-          image: ghcr.io/kkw855/custom-scala-api:18f34c33c5788d0b03d58cc7bfd2b544389981ac
+          image: ghcr.io/kkw855/custom-scala-api:152dc00689c8f3dea0c8ec990f1c4a191776ce01
           env:
             - name: DB_USER
               valueFrom:
