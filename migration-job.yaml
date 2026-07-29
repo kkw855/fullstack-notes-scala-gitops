@@ -1,9 +1,7 @@
-# k8s/migration-job.yaml
 apiVersion: batch/v1
 kind: Job
 metadata:
   name: postgres-migration-job
-  namespace: default
   annotations:
     # 🔗 ArgoCD 핵심 훅: 앱 배포(Sync)가 시작되기 전에 이 Job을 먼저 실행합니다.
     "argocd.argoproj.io/hook": PreSync
@@ -24,21 +22,21 @@ spec:
             - "migrate"
             - "apply"
             - "--url"
-            - "postgres://$(DB_USER):$(DB_PASSWORD)@crud-postgres-rw.postgres.svc.cluster.local:5432/notes_db?sslmode=disable"
+            - "postgres://$(DB_USER):$(DB_PASSWORD)@postgres-rw.postgres.svc.cluster.local:5432/notes_db_scala?sslmode=disable"
             - "--dir"
             - "file:///migrations"
           env:
             - name: DB_USER
               valueFrom:
                 secretKeyRef:
-                  name: crud-postgres-app  # 👈 확인하신 시크릿 이름(배포하는 네임스페이스에 해당 시크릿이 존재해야 함
-                  key: username
+                  name: notes-app-secrets  # 👈 확인하신 시크릿 이름(배포하는 네임스페이스에 해당 시크릿이 존재해야 함
+                  key: DB_USER
             # 🔐 패스워드 같은 민감 정보는 반드시 K8s Secret에서 안전하게 가져옵니다.
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: crud-postgres-app
-                  key: password
+                  name: notes-app-secrets
+                  key: DB_PASS
       # 실패 시 Job이 무한루프를 돌지 않고 Pod만 재시작하도록 설정합니다.
       restartPolicy: OnFailure
   # 마이그레이션이 롤백이나 락 문제로 실패했을 때, 최대 3번까지만 재시도하고 Job을 실패 처리합니다.

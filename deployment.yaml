@@ -1,22 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: custom-scala-api
-  namespace: default
+  name: scala-api
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: custom-scala-api
+      app: scala-api
   template:
     metadata:
       labels:
-        app: custom-scala-api
+        app: scala-api
     spec:
       imagePullSecrets:
         - name: ghcr-secret
       containers:
-        - name: custom-scala-api
+        - name: scala-api
           # 💡 CI/CD 파이프라인(sed 명령어)이 원활하게 추적할 수 있도록 초기 주소를 세팅했습니다.
           image: ghcr.io/kkw855/custom-scala-api:18f34c33c5788d0b03d58cc7bfd2b544389981ac
           env:
@@ -50,11 +49,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: custom-scala-api-service
-  namespace: default
+  name: scala-api-service
 spec:
   selector:
-    app: custom-scala-api
+    app: scala-api
   type: ClusterIP
   ports:
     - port: 5002       # 클러스터 내부에서 이 서비스에 접근할 포트

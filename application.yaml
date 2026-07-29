@@ -6,7 +6,7 @@ metadata:
 spec:
   destination:
     server: https://kubernetes.default.svc
-    namespace: default # 배포될 쿠버네티스 네임스페이스
+    namespace: notes-scala # 배포될 쿠버네티스 네임스페이스
 
   project: default
 
