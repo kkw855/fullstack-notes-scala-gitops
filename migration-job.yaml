@@ -32,12 +32,6 @@ spec:
                 secretKeyRef:
                   name: notes-app-secrets
                   key: DB_PASS
-            # 기존 DB를 Flyway로 처음 전환할 때만 사용
-            - name: FLYWAY_BASELINE_ON_MIGRATE
-              value: "true"
-
-            - name: FLYWAY_BASELINE_VERSION
-              value: "1"
       # 실패 시 Job이 무한루프를 돌지 않고 Pod만 재시작하도록 설정합니다.
       restartPolicy: OnFailure
   # 마이그레이션이 롤백이나 락 문제로 실패했을 때, 최대 3번까지만 재시도하고 Job을 실패 처리합니다.
