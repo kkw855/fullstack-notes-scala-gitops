@@ -15,7 +15,7 @@ spec:
       containers:
         - name: flyway-migration
           # 2단계에서 빌드하여 푸시한 이미지를 지정합니다.
-          image: ghcr.io/kkw855/notes/scala/flyway-migrations:321aeab594917b875e7ffa09c2b6fb6b6bcfc133
+          image: ghcr.io/kkw855/notes/scala/flyway-migrations:ee0acfab1f0d56aae03136867d401879a5c3aafb
           args:
             - "migrate"
           env:
